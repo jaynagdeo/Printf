@@ -20,6 +20,22 @@ return c;
 
 }
 
+
+int ft_putint(int c)
+{
+
+size_t nbytes = 1;
+ssize_t bytes_written;
+//int fd = 1; //STDOUT
+//strcpy(buf, "This is a test\n");
+//nbytes = strlen(buf);
+
+bytes_written = write(STDOUT_FILENO, &c, nbytes);
+
+return c;
+
+}
+
 size_t ft_strlen(const char *s)
 {
   unsigned int count = 0;
@@ -83,10 +99,10 @@ void b_printf(const char *fmt, ...)
 
 int main() {
 
-const char  *s = "Hello This is a test";
+//const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret = ft_puts(s);
+  ret = ft_putchar(1234);
   //printf("ret: %d\n", ret);
   return 0;
 }
