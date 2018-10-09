@@ -6,6 +6,6 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int ft_putchar(int c);
+//int ft_putchar(int c);
 
 #endif

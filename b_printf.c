@@ -2,7 +2,23 @@
 
 
 # include <stdio.h>
+# include <string.h>
 //decalre static
+
+int ft_putchar(int c)
+{
+
+size_t nbytes = 1;
+ssize_t bytes_written;
+//int fd = 1; //STDOUT
+//strcpy(buf, "This is a test\n");
+//nbytes = strlen(buf);
+
+bytes_written = write(STDOUT_FILENO, &c, nbytes);
+
+return c;
+
+}
 
 
 void b_printf(const char *fmt, ...)
@@ -39,6 +55,6 @@ char c = 'A';
 int ret;
   //b_printf("%s %d","Hello",123);
   ret = ft_putchar(c);
-
+  //printf("ret: %d\n", ret);
   return 0;
 }
