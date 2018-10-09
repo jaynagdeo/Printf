@@ -20,12 +20,41 @@ return c;
 
 }
 
+size_t ft_strlen(const char *s)
+{
+  unsigned int count = 0;
+  const char *ptr;
+
+    ptr = s;
+    while (*ptr != '\0'){
+        count++;
+        ptr++;
+      }
+    return (count);
+}
+
+int ft_puts(const char *s)
+{
+
+size_t nbytes;
+ssize_t bytes_written;
+//int fd = 1; //STDOUT
+//strcpy(buf, "This is a test\n");
+nbytes = ft_strlen(s);
+
+bytes_written = write(STDOUT_FILENO, s, nbytes);
+
+return c;
+
+}
+
 
 void b_printf(const char *fmt, ...)
 {
       va_list ap;
       int d;
       char c, *s;
+      int ret;
 
      va_start(ap, fmt);
       while (*fmt)
@@ -42,7 +71,8 @@ void b_printf(const char *fmt, ...)
               /* need a cast here since va_arg only
                  takes fully promoted types */
               c = (char) va_arg(ap, int);
-              printf("char %c\n", c);
+              //printf("char %c\n", c);
+              ret = ft_putchar(c);
               break;
           }
       va_end(ap);
@@ -51,10 +81,10 @@ void b_printf(const char *fmt, ...)
 
 int main() {
 
-char c = 'A';
+const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret = ft_putchar(c);
+  ret = ft_puts(s);
   //printf("ret: %d\n", ret);
   return 0;
 }
