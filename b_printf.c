@@ -44,7 +44,7 @@ nbytes = ft_strlen(s);
 
 bytes_written = write(STDOUT_FILENO, s, nbytes);
 
-return c;
+return bytes_written;
 
 }
 
@@ -53,15 +53,17 @@ void b_printf(const char *fmt, ...)
 {
       va_list ap;
       int d;
-      char c, *s;
+      char c;
+      const char  *s;
       int ret;
 
      va_start(ap, fmt);
       while (*fmt)
           switch (*fmt++) {
           case 's':              /* string */
-              s = va_arg(ap, char *);
-              printf("string %s\n", s);
+              s = va_arg(ap, const char *);
+              //printf("string %s\n", s);
+              ret = ft_puts(s);
               break;
           case 'd':              /* int */
               d = va_arg(ap, int);
