@@ -7,33 +7,55 @@
 
 int ft_putchar(int c)
 {
-
 size_t nbytes = 1;
 ssize_t bytes_written;
-//int fd = 1; //STDOUT
-//strcpy(buf, "This is a test\n");
-//nbytes = strlen(buf);
 
 bytes_written = write(STDOUT_FILENO, &c, nbytes);
 
 return c;
-
 }
-
 
 int ft_putint(int c)
 {
+  int count = 0;
+  int ct;
+  int temp;
+  char  *mem;
+  ssize_t bytes_written;
 
-size_t nbytes = 1;
-ssize_t bytes_written;
-//int fd = 1; //STDOUT
-//strcpy(buf, "This is a test\n");
-//nbytes = strlen(buf);
+  if (c == 0)
+  {
+    bytes_written = ft_putchar(c+'0');
+    return c;
+  }
 
-bytes_written = write(STDOUT_FILENO, &c, nbytes);
+  temp = c;
 
-return c;
+  while(temp != 0)
+  {
+    count++;
+    temp=temp/10;
+  }
 
+  if (NULL == (mem = (char *)malloc(sizeof(char)*(count))))
+      return -1;
+
+  ct=count;
+  temp = c;
+  while(count-- != 0)
+  {
+    mem[count] = temp%10 + '0';
+    temp=temp/10;
+  }
+  temp=0;
+  while(temp != ct)
+  {
+    bytes_written = ft_putchar(mem[temp]);
+    temp++;
+  }
+
+  free(mem);
+  return c;
 }
 
 size_t ft_strlen(const char *s)
@@ -102,7 +124,7 @@ int main() {
 //const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret = ft_putchar(1234);
+  ret = ft_putint(1234);
   //printf("ret: %d\n", ret);
   return 0;
 }
