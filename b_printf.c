@@ -187,7 +187,7 @@ int ft_puthex(int c)
   while(temp != 0)
   {
     count++;
-    temp=temp/10;
+    temp=temp/16;
   }
 
   if (NULL == (mem = (char *)malloc(sizeof(char)*(count))))
@@ -197,7 +197,13 @@ int ft_puthex(int c)
   temp = c;
   while(count-- != 0)
   {
-    mem[count] = temp%10 + '0';
+    if(temp%16 < 10)
+      mem[count] = temp%16 + '0';
+    else
+    {
+      mem[count] = (temp%16 - 10) + 'a';
+    }
+
     temp=temp/10;
   }
   temp=0;
@@ -311,7 +317,7 @@ int main() {
 //const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret=ft_puthex(10);
+  ret=ft_puthex(16);
   //ret = ft_putint(1234);
   //printf("ret: %d %u\n", -11, -11);
   return 0;
