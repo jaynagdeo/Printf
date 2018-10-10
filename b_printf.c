@@ -15,6 +15,16 @@ bytes_written = write(STDOUT_FILENO, &c, nbytes);
 return c;
 }
 
+int ft_putoctal(unsigned int o)
+{
+size_t nbytes = 1;
+ssize_t bytes_written;
+
+bytes_written = write(STDOUT_FILENO, &c, nbytes);
+
+return c;
+}
+
 int ft_putint(int c)
 {
   int count = 0;
@@ -94,6 +104,7 @@ void b_printf(const char *fmt, ...)
       char c;
       const char  *s;
       int ret;
+      unsigned int o;
 
      va_start(ap, fmt);
       while (*fmt)
@@ -105,14 +116,26 @@ void b_printf(const char *fmt, ...)
               break;
           case 'd':              /* int */
               d = va_arg(ap, int);
-              printf("int %d\n", d);
+              //printf("int %d\n", d);
+              ret = ft_putint(d);
               break;
+
+          case 'i':              /* int */
+              d = va_arg(ap, int);
+              //printf("int %d\n", d);
+              ret = ft_putint(d);
+              break;
+
           case 'c':              /* char */
               /* need a cast here since va_arg only
                  takes fully promoted types */
               c = (char) va_arg(ap, int);
               //printf("char %c\n", c);
               ret = ft_putchar(c);
+              break;
+
+          case ' ':              /* space */
+              ret = ft_putchar(' ');
               break;
           }
       va_end(ap);
@@ -123,8 +146,9 @@ int main() {
 
 //const char  *s = "Hello This is a test";
 int ret;
-  //b_printf("%s %d","Hello",123);
-  ret = ft_putint(1234);
+  b_printf("%s %d","Hello",123);
+  ret=ft_putchar('\n');
+  //ret = ft_putint(1234);
   //printf("ret: %d\n", ret);
   return 0;
 }
