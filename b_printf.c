@@ -64,6 +64,7 @@ int ft_putint(int c)
   int count = 0;
   int ct;
   int temp;
+  int neg = 0;
   char  *mem;
   ssize_t bytes_written;
 
@@ -71,6 +72,13 @@ int ft_putint(int c)
   {
     bytes_written = ft_putchar(c+'0');
     return c;
+  }
+
+  if(c<0)
+  {
+    count++;
+    c*=-1;
+    neg=1;
   }
 
   temp = c;
@@ -91,11 +99,25 @@ int ft_putint(int c)
     mem[count] = temp%10 + '0';
     temp=temp/10;
   }
+
   temp=0;
-  while(temp != ct)
+
+  if (neg == 0)
   {
-    bytes_written = ft_putchar(mem[temp]);
-    temp++;
+    while(temp != ct)
+    {
+      bytes_written = ft_putchar(mem[temp]);
+      temp++;
+    }
+  }
+  else
+  {
+    mem[0] = '-';
+    while(temp != ct)
+    {
+      bytes_written = ft_putchar(mem[temp]);
+      temp++;
+    }
   }
 
   free(mem);
@@ -238,7 +260,7 @@ int main() {
 //const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret=ft_putunsignedint(1234);
+  ret=ft_putint(-1234);
   //ret = ft_putint(1234);
   //printf("ret: %d %u\n", -11, -11);
   return 0;
