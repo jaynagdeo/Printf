@@ -102,6 +102,50 @@ int ft_putint(int c)
   return c;
 }
 
+int ft_putunsignedint(int c)
+{
+  int count = 0;
+  int ct;
+  int temp;
+  char  *mem;
+  ssize_t bytes_written;
+
+  if (c == 0)
+  {
+    bytes_written = ft_putchar(c+'0');
+    return c;
+  }
+
+  temp = c;
+
+  while(temp != 0)
+  {
+    count++;
+    temp=temp/10;
+  }
+
+  if (NULL == (mem = (char *)malloc(sizeof(char)*(count))))
+      return -1;
+
+  ct=count;
+  temp = c;
+  while(count-- != 0)
+  {
+    mem[count] = temp%10 + '0';
+    temp=temp/10;
+  }
+  temp=0;
+  while(temp != ct)
+  {
+    bytes_written = ft_putchar(mem[temp]);
+    temp++;
+  }
+
+  free(mem);
+  return c;
+}
+
+
 size_t ft_strlen(const char *s)
 {
   unsigned int count = 0;
@@ -167,12 +211,19 @@ void b_printf(const char *fmt, ...)
               //printf("char %c\n", c);
               ret = ft_putchar(c);
               break;
-            case 'o':              /* octal */
+          case 'o':              /* octal */
 
-                o = va_arg(ap, unsigned int);
-                //printf("char %c\n", c);
-                ret = ft_putchar(o);
-                break;
+            o = va_arg(ap, unsigned int);
+            //printf("char %c\n", c);
+            ret = ft_putchar(o);
+            break;
+
+          case 'u':              /* octal */
+
+            o = va_arg(ap, unsigned int);
+            //printf("char %c\n", c);
+            ret = ft_putunsignedint(o);
+            break;
 
           case ' ':              /* space */
               ret = ft_putchar(' ');
@@ -187,8 +238,8 @@ int main() {
 //const char  *s = "Hello This is a test";
 int ret;
   //b_printf("%s %d","Hello",123);
-  ret=ft_putoctal(8);
+  ret=ft_putunsignedint(1234);
   //ret = ft_putint(1234);
-  //printf("ret: %d\n", ret);
+  //printf("ret: %d %u\n", -11, -11);
   return 0;
 }
