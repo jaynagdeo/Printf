@@ -17,13 +17,47 @@ return c;
 
 int ft_putoctal(unsigned int o)
 {
-size_t nbytes = 1;
-ssize_t bytes_written;
+  int count = 0;
+  int ct;
+  int temp;
+  char  *mem;
+  ssize_t bytes_written;
 
-bytes_written = write(STDOUT_FILENO, &c, nbytes);
+  if (o == 0)
+  {
+    bytes_written = ft_putchar(o+'0');
+    return o;
+  }
 
-return c;
+  temp = o;
+
+  while(temp != 0)
+  {
+    count++;
+    temp=temp/8;
+  }
+
+  if (NULL == (mem = (char *)malloc(sizeof(char)*(count))))
+      return -1;
+
+  ct=count;
+  temp = o;
+  while(count-- != 0)
+  {
+    mem[count] = temp%8 + '0';
+    temp=temp/8;
+  }
+  temp=0;
+  while(temp != ct)
+  {
+    bytes_written = ft_putchar(mem[temp]);
+    temp++;
+  }
+
+  free(mem);
+  return o;
 }
+
 
 int ft_putint(int c)
 {
@@ -133,6 +167,12 @@ void b_printf(const char *fmt, ...)
               //printf("char %c\n", c);
               ret = ft_putchar(c);
               break;
+            case 'o':              /* octal */
+
+                o = va_arg(ap, unsigned int);
+                //printf("char %c\n", c);
+                ret = ft_putchar(o);
+                break;
 
           case ' ':              /* space */
               ret = ft_putchar(' ');
@@ -146,8 +186,8 @@ int main() {
 
 //const char  *s = "Hello This is a test";
 int ret;
-  b_printf("%s %d","Hello",123);
-  ret=ft_putchar('\n');
+  //b_printf("%s %d","Hello",123);
+  ret=ft_putoctal(8);
   //ret = ft_putint(1234);
   //printf("ret: %d\n", ret);
   return 0;
