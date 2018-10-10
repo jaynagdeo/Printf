@@ -124,7 +124,7 @@ int ft_putint(int c)
   return c;
 }
 
-int ft_putunsignedint(int c)
+int ft_putunsignedint(unsigned int c)
 {
   int count = 0;
   int ct;
@@ -168,7 +168,7 @@ int ft_putunsignedint(int c)
 }
 
 
-int ft_puthex(int c)
+int ft_puthex(unsigned int c)
 {
   int count = 0;
   int ct;
@@ -218,6 +218,16 @@ int ft_puthex(int c)
 }
 
 
+int ft_putp(void *c)
+{
+  int ret;
+  unsigned int  temp = *c;
+
+  ret = ft_puthex(*temp);
+
+  return ret;
+}
+
 size_t ft_strlen(const char *s)
 {
   unsigned int count = 0;
@@ -261,18 +271,15 @@ void b_printf(const char *fmt, ...)
           switch (*fmt++) {
           case 's':              /* string */
               s = va_arg(ap, const char *);
-              //printf("string %s\n", s);
               ret = ft_puts(s);
               break;
           case 'd':              /* int */
               d = va_arg(ap, int);
-              //printf("int %d\n", d);
               ret = ft_putint(d);
               break;
 
           case 'i':              /* int */
               d = va_arg(ap, int);
-              //printf("int %d\n", d);
               ret = ft_putint(d);
               break;
 
@@ -280,27 +287,23 @@ void b_printf(const char *fmt, ...)
               /* need a cast here since va_arg only
                  takes fully promoted types */
               c = (char) va_arg(ap, int);
-              //printf("char %c\n", c);
               ret = ft_putchar(c);
               break;
           case 'o':              /* octal */
 
             o = va_arg(ap, unsigned int);
-            //printf("char %c\n", c);
             ret = ft_putchar(o);
             break;
 
           case 'u':              /* octal */
 
             o = va_arg(ap, unsigned int);
-            //printf("char %c\n", c);
             ret = ft_putunsignedint(o);
             break;
 
             case 'x':              /* octal */
 
               o = va_arg(ap, unsigned int);
-              //printf("char %c\n", c);
               ret = ft_puthex(o);
               break;
 
@@ -316,9 +319,12 @@ int main() {
 
 //const char  *s = "Hello This is a test";
 int ret;
+int temp;
   //b_printf("%s %d","Hello",123);
-  ret=ft_puthex(16);
+  //ret=ft_puthex(16);
   //ret = ft_putint(1234);
-  //printf("ret: %d %u\n", -11, -11);
+  //printf("%p\n", &temp);
+  ret=ft_putp(&temp);
+  printf("\n%p\n", &temp);
   return 0;
 }
