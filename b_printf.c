@@ -218,15 +218,74 @@ int ft_puthex(unsigned int c)
 }
 
 
-int ft_putp(void *c)
+int ft_puthexl(unsigned long c)
 {
-  int ret;
-  unsigned int  temp = *c;
+  int count = 0;
+  int ct;
+  unsigned long temp;
+  char  *mem;
+  ssize_t bytes_written;
 
-  ret = ft_puthex(*temp);
+  if (c == 0)
+  {
+    bytes_written = ft_putchar(c+'0');
+    return c;
+  }
 
-  return ret;
+  temp = c;
+
+  while(temp != 0)
+  {
+    count++;
+    temp=temp/16;
+  }
+
+  if (NULL == (mem = (char *)malloc(sizeof(char)*(count))))
+      return -1;
+
+  ct=count;
+  temp = c;
+  while(count-- != 0)
+  {
+    if(temp%16 < 10)
+      mem[count] = temp%16 + '0';
+    else
+    {
+      mem[count] = (temp%16 - 10) + 'a';
+    }
+
+    temp=temp/10;
+  }
+  temp=0;
+  while(temp != ct)
+  {
+    bytes_written = ft_putchar(mem[temp]);
+    temp++;
+  }
+
+  free(mem);
+  return c;
 }
+
+// int ft_putp(void *c)
+// {
+//   int ret;
+//   unsigned long *temp = c;
+//
+//   ret = ft_puthexl(*temp);
+//
+//   return ret;
+// }
+
+// int ft_putp(unsigned long c)
+// {
+//   int ret;
+//   // unsigned long *temp = c;
+//
+//   ret = ft_puthexl(c);
+//
+//   return ret;
+// }
 
 size_t ft_strlen(const char *s)
 {
@@ -265,6 +324,7 @@ void b_printf(const char *fmt, ...)
       const char  *s;
       int ret;
       unsigned int o;
+      unsigned long ul;
 
      va_start(ap, fmt);
       while (*fmt)
@@ -295,17 +355,25 @@ void b_printf(const char *fmt, ...)
             ret = ft_putchar(o);
             break;
 
-          case 'u':              /* octal */
+          case 'u':              /* unsigned int */
 
             o = va_arg(ap, unsigned int);
             ret = ft_putunsignedint(o);
             break;
 
-            case 'x':              /* octal */
+          case 'x':              /* hex */
 
-              o = va_arg(ap, unsigned int);
-              ret = ft_puthex(o);
-              break;
+            o = va_arg(ap, unsigned int);
+            ret = ft_puts("0x");
+            ret = ft_puthex(o);
+            break;
+
+          case 'p':              /* pointer */
+
+            ul = (unsigned long) va_arg(ap, void *);
+            ret = ft_puts("0x");
+            ret = ft_puthexl(ul);
+            break;
 
           case ' ':              /* space */
               ret = ft_putchar(' ');
@@ -318,13 +386,17 @@ void b_printf(const char *fmt, ...)
 int main() {
 
 //const char  *s = "Hello This is a test";
-int ret;
-int temp;
-  //b_printf("%s %d","Hello",123);
-  //ret=ft_puthex(16);
+//int ret;
+unsigned int t=123;
+// unsigned int te;
+// *te = &t;
+
+  b_printf("%p",&t);
+  //ret=ft_puthex(*te);
   //ret = ft_putint(1234);
   //printf("%p\n", &temp);
-  ret=ft_putp(&temp);
-  printf("\n%p\n", &temp);
+  //ret=ft_putp(&t);
+  // b_printf("%p",&t);
+   printf("\n%p\n", &t);
   return 0;
 }
